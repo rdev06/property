@@ -17,7 +17,7 @@ export default function PropertyItem({ item, navigation }) {
   return (
     <Card
       onPress={() =>
-        navigation.navigate('OverLap', { use: 'PropertyDetail', meta: { foo: 'bar' } })
+        navigation.navigate('OverLap', { use: 'PropertyDetail', meta: item })
       }
     >
       <Card.Title title={item.title} />

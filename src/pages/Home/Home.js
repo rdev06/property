@@ -40,7 +40,7 @@ export default function Home() {
       })}
     >
       <Tab.Screen name='PropertyList' component={PropertyList} />
-      <Tab.Screen name='PropertyFilter' component={PropertyFilter} />
+      <Tab.Screen name='PropertyFilter' component={PropertyFilter}  />
       {/* <Tab.Screen name='PropertyDetail' component={PropertyDetail} /> */}
       <Tab.Screen name='WhishList' component={WishList} />
       <Tab.Screen name='VisitScheduled' component={Scheduled} />

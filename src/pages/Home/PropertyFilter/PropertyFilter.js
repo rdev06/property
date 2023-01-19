@@ -1,19 +1,36 @@
+import { useState } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { Switch } from 'react-native-paper';
+import { Switch, Text, Divider, IconButton } from 'react-native-paper';
 import DropDownF from './Component/DropdownF';
+import Slider from '@react-native-community/slider';
+import { FlatGrid } from 'react-native-super-grid';
+import Chip from '../../../Component/Chip';
 
-export default function PropertyFilter() {
+
+const ammeneties = [
+  { label: 'Balcony', icon: 'balcony', selected: true },
+  { label: 'Basement', icon: 'wheel-barrow', selected: false },
+  { label: 'Bike Parking', icon: 'motorbike', selected: false },
+  { label: 'Cable TV', icon: 'cast-variant', selected: true }
+]
+
+export default function PropertyFilter({ navigation }) {
+  const [pet, setPet] = useState(true);
+  const [lease, setLease] = useState(1);
+  const [withinDistance, setWithinDistance] = useState(1);
+
+
   return (
-    <ScrollView style={styles.container} >
+    <ScrollView style={styles.container}>
       <DropDownF
         label='Gender:'
         items={[
           { value: 'M', label: 'Male' },
-          { value: 'F', label: 'Femaile' },
+          { value: 'F', label: 'Female' },
           { value: 'M/F', label: 'Mixed' }
         ]}
         selected='M'
-        style={{ zIndex: 20 }}
+        style={[styles.filterItem, { zIndex: 20 }]}
       />
       <DropDownF
         label='Type:'
@@ -23,7 +40,7 @@ export default function PropertyFilter() {
           { value: 'S', label: 'Private' }
         ]}
         selected='A'
-        style={{ zIndex: 19 }}
+        style={[styles.filterItem, { zIndex: 19 }]}
       />
       <DropDownF
         label='Property:'
@@ -34,7 +51,7 @@ export default function PropertyFilter() {
           { value: '4B', label: '4 Bed' }
         ]}
         selected='1B'
-        style={{ zIndex: 18 }}
+        style={[styles.filterItem, { zIndex: 18 }]}
       />
       <DropDownF
         label='G. Level:'
@@ -44,17 +61,17 @@ export default function PropertyFilter() {
           { value: 'BASEMENT', label: 'Basement' }
         ]}
         selected='ANY'
-        style={{ zIndex: 17 }}
+        style={[styles.filterItem, { zIndex: 17 }]}
       />
       <DropDownF
         label='Bathroom:'
         items={[
-          { value: '1', label: '< 1' },
-          { value: '2', label: '< 2' },
-          { value: '3', label: '< 3 <' }
+          { value: '1', label: '≤ 1' },
+          { value: '2', label: '≤ 2' },
+          { value: '3', label: '≤ 3 ≤' }
         ]}
         selected='1'
-        style={{ zIndex: 16 }}
+        style={[styles.filterItem, { zIndex: 16 }]}
       />
       <DropDownF
         label='Wifi:'
@@ -64,7 +81,7 @@ export default function PropertyFilter() {
           { value: 'POU', label: 'POU' }
         ]}
         selected='ANY'
-        style={{ zIndex: 15 }}
+        style={[styles.filterItem, { zIndex: 15 }]}
       />
       <DropDownF
         label='Heat:'
@@ -74,7 +91,7 @@ export default function PropertyFilter() {
           { value: 'POU', label: 'POU' }
         ]}
         selected='ANY'
-        style={{ zIndex: 14 }}
+        style={[styles.filterItem, { zIndex: 14 }]}
       />
       <DropDownF
         label='Electricity:'
@@ -84,7 +101,7 @@ export default function PropertyFilter() {
           { value: 'POU', label: 'POU' }
         ]}
         selected='ANY'
-        style={{ zIndex: 13 }}
+        style={[styles.filterItem, { zIndex: 13 }]}
       />
       <DropDownF
         label='Parking:'
@@ -95,7 +112,7 @@ export default function PropertyFilter() {
           { value: 'ON', label: 'ON Street' }
         ]}
         selected='ANY'
-        style={{ zIndex: 12 }}
+        style={[styles.filterItem, { zIndex: 12 }]}
       />
       <DropDownF
         label='Laundry:'
@@ -105,7 +122,7 @@ export default function PropertyFilter() {
           { value: 'NO-L', label: 'NO-L' }
         ]}
         selected='ANY'
-        style={{ zIndex: 11 }}
+        style={[styles.filterItem, { zIndex: 11 }]}
       />
       <DropDownF
         label='Deposit:'
@@ -117,10 +134,82 @@ export default function PropertyFilter() {
           { value: 'FULL', label: 'Full' }
         ]}
         selected='ANY'
-        style={{ zIndex: 10 }}
+        style={[styles.filterItem, { zIndex: 10 }]}
       />
 
-      <View style={{height: 200}} ></View>
+      <View style={styles.filterItem}>
+        <Text style={{ fontWeight: 'bold', width: 80 }}>Pet: {pet ? 'Yes' : 'No'}</Text>
+        <Switch value={pet} color='purple' onValueChange={setPet} />
+      </View>
+
+      <View style={styles.filterItem}>
+        <Text style={{ fontWeight: 'bold', width: 80 }}>Lease: {lease}</Text>
+        <View style={{ width: 100 }}>
+          <Slider
+            minimumValue={1}
+            maximumValue={12}
+            step={3}
+            value={lease}
+            onValueChange={setLease}
+            minimumTrackTintColor='grey'
+            maximumTrackTintColor='purple'
+          />
+        </View>
+      </View>
+
+      <View style={styles.filterItem}>
+        <Text style={{ fontWeight: 'bold' }}>Within Distance(in Km): {withinDistance}</Text>
+        <View style={{ width: 100 }}>
+          <Slider
+            minimumValue={1}
+            maximumValue={35}
+            step={5}
+            value={withinDistance}
+            onValueChange={setWithinDistance}
+            minimumTrackTintColor='grey'
+            maximumTrackTintColor='purple'
+          />
+        </View>
+      </View>
+      <View>
+        <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>Ammeneties:</Text>
+        <FlatGrid
+        itemDimension={150}
+        style={{alignSelf: 'center'}}
+          data={ammeneties}
+          renderItem={({ item }) => <Chip {...item} />}
+        />
+      </View>
+
+      <DropDownF
+        label='Sort By:'
+        items={[
+          { value: 'date', label: 'Date' },
+          { value: 'price', label: 'Price' }
+        ]}
+        selected='date'
+        style={[styles.filterItem, { zIndex: 10 }]}
+      />
+
+      <Divider />
+
+      <View style={styles.filterItem}>
+        <IconButton
+          icon='undo-variant'
+          iconColor='red'
+          animated={true}
+          size={40}
+          onPress={() => console.log('Pressed')}
+        />
+        <IconButton
+          icon='check'
+          iconColor='green'
+          size={40}
+          onPress={() => navigation.navigate('PropertyList')}
+        />
+      </View>
+
+      <View style={{ height: 200 }}></View>
     </ScrollView>
   );
 }
@@ -129,5 +218,12 @@ const styles = StyleSheet.create({
   container: {
     // flexDirection: 'row',
     // justifyContent: 'space-evenly',
+  },
+  filterItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    height: 50,
+    alignItems: 'center',
+    marginVertical: 10
   }
 });

@@ -1,5 +1,5 @@
 import DropDownPicker from 'react-native-dropdown-picker';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { useState } from 'react';
 
 export default function DropDownF({ label, items, selected, style }) {
@@ -7,7 +7,7 @@ export default function DropDownF({ label, items, selected, style }) {
   const [value, setValue] = useState(selected);
   const [item, setItem] = useState(items);
   return (
-    <View style={[styles.filterItem, style]}>
+    <View style={style}>
       <Text style={{ fontWeight: 'bold', width: 80 }}>{label}</Text>
       <View style={{ width: 100 }} >
         <DropDownPicker
@@ -24,13 +24,3 @@ export default function DropDownF({ label, items, selected, style }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  filterItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    height: 50,
-    alignItems: 'center',
-    marginVertical : 10
-  }
-});
